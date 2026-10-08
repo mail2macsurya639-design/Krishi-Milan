@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>कृषि मिलन · Krishi Milan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="headbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <div class="brand-name">कृषि मिलन <span style="font-weight:400;font-size:14px;color:var(--muted)">Krishi Milan</span></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span class="account-pill" id="accountPill"></span>
+      <button class="btn secondary hidden" id="logoutBtn" style="padding:6px 12px;font-size:12px;" onclick="logout()" data-i18n="btn_logout"></button>
+      <div class="lang-toggle">
+        <button id="langNe" class="active" onclick="setLang('ne')">ने</button>
+        <button id="langEn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+  <nav class="tabs">
+    <button data-tab="predict" class="active" onclick="showTab('predict')" data-i18n="tab_predict"></button>
+    <button data-tab="market" onclick="showTab('market')" data-i18n="tab_market"></button>
+    <button data-tab="assist" onclick="showTab('assist')" data-i18n="tab_assist"></button>
+    <button data-tab="account" onclick="showTab('account')" data-i18n="tab_account"></button>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <!-- PREDICT TAB -->
+  <section id="predict" class="active">
+    <div class="hero">
+      <h1 data-i18n="hero_title"></h1>
+      <p data-i18n="hero_sub"></p>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="pick_region"></h3>
+      <div class="region-row" id="regionRow">
+        <button class="region-card" data-region="terai" onclick="selectRegion('terai')">
+          <div class="swatch"></div>
+          <div class="rname">तराई</div>
+          <div class="rsub" data-i18n="terai_sub"></div>
+        </button>
+        <button class="region-card" data-region="pahad" onclick="selectRegion('pahad')">
+          <div class="swatch"></div>
+          <div class="rname">पहाड</div>
+          <div class="rsub" data-i18n="pahad_sub"></div>
+        </button>
+        <button class="region-card" data-region="himal" onclick="selectRegion('himal')">
+          <div class="swatch"></div>
+          <div class="rname">हिमाल</div>
+          <div class="rsub" data-i18n="himal_sub"></div>
+        </button>
+      </div>
+
+      <div class="btn-row" style="margin-bottom:16px;">
+        <button class="btn secondary" onclick="fetchWeather()" data-i18n="autofill_weather"></button>
+        <span class="msg" id="weatherMsg"></span>
+      </div>
+
+      <div class="grid2">
+        <div><label data-i18n="lbl_n"></label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" id="N" placeholder="90" style="flex:1;">
+            <button type="button" class="btn secondary voice-mini" id="mic-N" onclick="startVoice('N', true)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+          </div>
+        </div>
+        <div><label data-i18n="lbl_p"></label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" id="P" placeholder="40" style="flex:1;">
+            <button type="button" class="btn secondary voice-mini" id="mic-P" onclick="startVoice('P', true)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+          </div>
+        </div>
+        <div><label data-i18n="lbl_k"></label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" id="K" placeholder="40" style="flex:1;">
+            <button type="button" class="btn secondary voice-mini" id="mic-K" onclick="startVoice('K', true)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+          </div>
+        </div>
+        <div><label data-i18n="lbl_ph"></label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" step="0.1" id="ph" placeholder="6.5" style="flex:1;">
+            <button type="button" class="btn secondary voice-mini" id="mic-ph" onclick="startVoice('ph', true)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+          </div>
+        </div>
+        <div><label data-i18n="lbl_temp"></label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" step="0.1" id="temperature" placeholder="25" style="flex:1;">
+            <button type="button" class="btn secondary voice-mini" id="mic-temperature" onclick="startVoice('temperature', true)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+          </div>
+        </div>
+        <div><label data-i18n="lbl_humidity"></label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" step="0.1" id="humidity" placeholder="70" style="flex:1;">
+            <button type="button" class="btn secondary voice-mini" id="mic-humidity" onclick="startVoice('humidity', true)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+          </div>
+        </div>
+        <div><label data-i18n="lbl_rainfall"></label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" id="rainfall" placeholder="200" style="flex:1;">
+            <button type="button" class="btn secondary voice-mini" id="mic-rainfall" onclick="startVoice('rainfall', true)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <p class="msg" id="voiceFieldMsg"></p>
+
+      <div class="btn-row">
+        <button class="btn" id="predictBtn" onclick="predictCrop()" data-i18n="btn_predict"></button>
+      </div>
+
+      <div class="result hidden" id="resultBox">
+        <div class="crop-name" id="cropName"></div>
+        <div class="conf" id="cropConf"></div>
+        <div class="explain" id="cropExplain"></div>
+        <div style="margin-top:14px;" id="alt3"></div>
+      </div>
+    </div>
+
+    <div class="card hidden" id="historyCard">
+      <h3 data-i18n="history_title"></h3>
+      <div id="historyList"></div>
+    </div>
+  </section>
+
+  <!-- MARKETPLACE TAB -->
+  <section id="market">
+    <div class="hero">
+      <h1 data-i18n="market_title"></h1>
+      <p data-i18n="market_sub"></p>
+    </div>
+
+    <div class="card" id="listingFormCard">
+      <h3 data-i18n="new_listing"></h3>
+      <div class="grid2">
+        <div><label data-i18n="lbl_crop"></label>
+          <input type="text" id="listCrop" placeholder="धान">
+          <button type="button" class="btn secondary" id="mic-listCrop" style="padding:6px 12px;font-size:12px;margin-top:-10px;margin-bottom:14px;display:inline-flex;align-items:center;gap:6px;" onclick="startVoice('listCrop')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> <span data-i18n="voice_btn"></span></button>
+        </div>
+        <div><label data-i18n="lbl_qty"></label><input type="number" id="listQty" placeholder="500"></div>
+        <div><label data-i18n="lbl_unit"></label>
+          <select id="listUnit"><option value="kg">kg</option><option value="quintal">quintal</option></select>
+        </div>
+        <div><label data-i18n="lbl_price"></label><input type="number" id="listPrice" placeholder="35"></div>
+      </div>
+      <button class="btn" onclick="createListing()" data-i18n="btn_post_listing"></button>
+      <div class="msg" id="listingMsg"></div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="find_produce"></h3>
+      <label data-i18n="lbl_need"></label>
+      <textarea id="buyerNeed" rows="2" placeholder="मलाई तराईबाट २ टन धान चाहियो"></textarea>
+      <div class="btn-row" style="margin-top:-8px;margin-bottom:14px;">
+        <button type="button" class="btn secondary" id="mic-buyerNeed" style="padding:6px 12px;font-size:12px;display:inline-flex;align-items:center;gap:6px;" onclick="startVoice('buyerNeed')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> <span data-i18n="voice_btn"></span></button>
+      </div>
+      <button class="btn" onclick="findMatch()" data-i18n="btn_find_match"></button>
+      <div id="matchResults"></div>
+    </div>
+
+    <div class="card hidden" id="dealsCard">
+      <h3 data-i18n="deals_title"></h3>
+      <div id="dealsList"></div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="open_listings"></h3>
+      <div class="btn-row" style="margin-bottom:14px;">
+        <select id="filterRegion" onchange="loadListings()">
+          <option value="" data-i18n="all_regions"></option>
+          <option value="terai">तराई</option>
+          <option value="pahad">पहाड</option>
+          <option value="himal">हिमाल</option>
+        </select>
+      </div>
+      <div id="listingsList"></div>
+    </div>
+
+    <div class="card" id="negotiateCard">
+      <h3 data-i18n="negotiate_title"></h3>
+      <p class="msg" data-i18n="negotiate_hint"></p>
+      <div id="negotiateResult"></div>
+    </div>
+  </section>
+
+  <!-- ASSISTANT TAB (chat + photo crop-health check) -->
+  <section id="assist">
+    <div class="hero">
+      <h1 data-i18n="assist_title"></h1>
+      <p data-i18n="assist_sub"></p>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h3 data-i18n="chat_title" style="margin:0;"></h3>
+        <button type="button" class="btn secondary" id="autoSpeakToggle" style="padding:6px 10px;" onclick="toggleAutoSpeak()" title=""><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></button>
+      </div>
+      <div id="chatLog" class="chat-log"></div>
+      <div class="btn-row">
+        <input type="text" id="chatInput" style="flex:1;margin-bottom:0;" placeholder="">
+        <button type="button" class="btn secondary" id="mic-chatInput" onclick="startVoice('chatInput')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+        <button class="btn" onclick="sendChat()" data-i18n="btn_send"></button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="health_title"></h3>
+      <p class="msg" data-i18n="health_hint"></p>
+      <input type="file" id="healthPhoto" accept="image/*" capture="environment">
+      <img id="healthPreview" class="hidden" style="max-width:240px;border-radius:10px;margin-bottom:14px;">
+      <div class="btn-row">
+        <button class="btn" onclick="checkCropHealth()" data-i18n="btn_check_health"></button>
+      </div>
+      <div id="healthResult" class="result hidden"></div>
+    </div>
+  </section>
+
+  <!-- ACCOUNT TAB -->
+  <section id="account">
+    <div class="hero">
+      <h1 data-i18n="account_title"></h1>
+      <p data-i18n="account_sub"></p>
+    </div>
+
+    <div class="card" id="loginCard">
+      <h3 data-i18n="login_title"></h3>
+      <div class="grid2">
+        <div><label data-i18n="lbl_phone"></label><input type="text" id="loginPhone"></div>
+        <div><label data-i18n="lbl_password"></label><input type="password" id="loginPassword"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" onclick="login()" data-i18n="btn_login"></button>
+      </div>
+      <div class="msg" id="loginMsg"></div>
+    </div>
+
+    <div class="card" id="registerCard">
+      <h3 data-i18n="register_title"></h3>
+      <div class="grid2">
+        <div><label data-i18n="lbl_name"></label><input type="text" id="regName"></div>
+        <div>
+          <label data-i18n="lbl_phone"></label>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="regPhone" style="flex:1;">
+            <button type="button" class="btn secondary" style="padding:10px 14px;white-space:nowrap;" onclick="sendOtp()" data-i18n="btn_send_otp"></button>
+          </div>
+        </div>
+        <div><label data-i18n="lbl_password"></label><input type="password" id="regPassword"></div>
+        <div>
+          <label data-i18n="lbl_otp"></label>
+          <input type="text" id="regOtp" inputmode="numeric" maxlength="6" placeholder="000000">
+        </div>
+        <div><label data-i18n="lbl_role"></label>
+          <select id="regRole">
+            <option value="farmer" data-i18n="role_farmer"></option>
+            <option value="buyer" data-i18n="role_buyer"></option>
+          </select>
+        </div>
+        <div><label data-i18n="lbl_region"></label>
+          <select id="regRegion">
+            <option value="terai">तराई</option>
+            <option value="pahad">पहाड</option>
+            <option value="himal">हिमाल</option>
+          </select>
+        </div>
+      </div>
+      <div class="msg" id="otpMsg"></div>
+      <div class="btn-row">
+        <button class="btn secondary" onclick="registerUser()" data-i18n="btn_register"></button>
+      </div>
+      <div class="msg" id="registerMsg"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Krishi Milan — INTELLIGNET CROP RECOMMENDATION SYSTEM USING VOTING ENSEMBLE CLASSIFIER .</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

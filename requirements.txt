@@ -1,0 +1,11 @@
+flask
+flask-cors
+certifi
+pyjwt
+pandas
+scikit-learn
+joblib
+pymongo
+python-dotenv
+requests
+werkzeug
